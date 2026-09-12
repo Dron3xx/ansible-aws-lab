@@ -1,0 +1,102 @@
+# =========================
+# Terraform
+# =========================
+
+# Terraform working directory
+**/.terraform/
+
+# Terraform state files
+*.tfstate
+*.tfstate.*
+*.tfstate.backup
+
+# Terraform variable files containing secrets
+*.tfvars
+*.tfvars.json
+
+# Crash logs
+crash.log
+crash.*.log
+
+# Terraform plan files
+*.tfplan
+*.tfplan.*
+
+# Terraform override files
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Terraform CLI configuration
+.terraformrc
+terraform.rc
+
+
+# =========================
+# AWS / Credentials
+# =========================
+
+# AWS credentials
+.aws/
+.aws/credentials
+
+# Private keys
+*.pem
+*.key
+*.p12
+*.pfx
+
+
+# =========================
+# Ansible
+# =========================
+
+# Ansible retry files
+*.retry
+
+# Ansible vault passwords
+.vault_password
+.vault_pass
+
+# Local Ansible configuration
+ansible.cfg.local
+
+# Temporary files
+*.swp
+*.swo
+*~
+
+
+# =========================
+# Python
+# =========================
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+.venv/
+venv/
+env/
+ENV/
+
+
+# =========================
+# IDE / Editors
+# =========================
+
+.vscode/
+.idea/
+
+# VS Code local history
+.history/
+
+
+# =========================
+# OS
+# =========================
+
+.DS_Store
+Thumbs.db
+Desktop.ini
