@@ -15,5 +15,12 @@ jobs:
           -H "Authorization: Bearer ${{ secrets.PORTFOLIO_TOKEN }}" \
           -H "Accept: application/vnd.github+json" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
-          -d '{"event_type":"project-update"}' \
-          https://api.github.com/repos/Dron3xx/aws-cloud-website/dispatches
+          https://api.github.com/repos/Dron3xx/aws-cloud-website/dispatches \
+          -d @- <<JSON
+          {
+            "event_type": "project-update",
+            "client_payload": {
+              "repo_url": "${{ github.repositoryUrl }}"
+            }
+          }
+          JSON
