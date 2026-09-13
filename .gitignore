@@ -100,3 +100,6 @@ ENV/
 .DS_Store
 Thumbs.db
 Desktop.ini
+
+# Keys
+.pem
