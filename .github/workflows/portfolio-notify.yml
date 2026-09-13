@@ -1,0 +1,19 @@
+name: Portfiolio notify
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run notification step
+        run: |
+          curl -X POST \
+          -H "Authorization: Bearer ${{ secrets.PORTFOLIO_TOKEN }}" \
+          -H "Accept: application/vnd.github+json" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          -d '{"event_type":"project-update"}' \
+          https://api.github.com/repos/Dron3xx/aws-cloud-website/dispatches
