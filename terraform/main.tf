@@ -57,7 +57,7 @@ data "aws_ami" "ansible-aws-lab-ami" {
 
   filter {
     name   = "name"
-    values = ["ubuntu-jammy-22.04*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
   }
 
   filter {
@@ -84,8 +84,10 @@ module "ec2_instance" {
   ami               = data.aws_ami.ansible-aws-lab-ami.id
   instance_type     = "t3.micro"
   root_block_device = { volume_size = 10 }
-  key_name          = "user1"
-  subnet_id         = each.value
+
+  key_name                    = "ansible-aws-lab"
+  subnet_id                   = each.value
+  associate_public_ip_address = true
 
   vpc_security_group_ids = [aws_security_group.ansible-aws-lab-sg.id]
 
