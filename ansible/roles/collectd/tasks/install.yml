@@ -1,0 +1,92 @@
+- name: collectd_packages_install
+  ansible.builtin.apt:
+    name: "{{ collectd_package }}"
+    state: latest
+    update_cache: true
+  become: true
+  notify: Restart_collectd
+
+- name: daemon_reload
+  ansible.builtin.systemd:
+    daemon_reload: true
+  become: true
+
+- name: build_collectd
+  ansible.builtin.apt:
+    name: "{{ collectd_build_packages }}"
+    state: present
+    update_cache: true
+  become: true
+
+- name: get_url
+  ansible.builtin.get_url:
+    url: https://storage.googleapis.com/collectd-tarballs/collectd-5.12.0.tar.bz2
+    dest: /usr/local/src/collectd-5.12.0.tar.bz2
+  become: true
+
+- name: unarchive_collectd
+  ansible.builtin.unarchive:
+    src: /usr/local/src/collectd-5.12.0.tar.bz2
+    dest: /usr/local/src
+    creates: /usr/local/src/collectd-5.12.0
+    remote_src: true
+  become: true
+
+- name: configure_collectd
+  ansible.builtin.command: ./configure --prefix=/usr --enable-write_prometheus
+  args:
+    chdir: /usr/local/src/collectd-5.12.0
+    creates: /usr/local/src/collectd-5.12.0/Makefile
+  become: true
+
+- name: check_collectd_build
+  ansible.builtin.stat:
+    path: /usr/local/src/collectd-5.12.0/.libs/write_prometheus.so
+  register: collectd_build
+
+- name: make_collectd
+  ansible.builtin.make:
+    chdir: /usr/local/src/collectd-5.12.0
+  become: true
+  when: not collectd_build.stat.exists
+
+- name: check_collectd_install
+  ansible.builtin.stat:
+    path: /usr/lib/collectd/write_prometheus.so
+  register: collectd_install_check
+
+- name: install_prometheus_plugin
+  ansible.builtin.copy:
+    src: /usr/local/src/collectd-5.12.0/.libs/write_prometheus.so
+    dest: /usr/lib/collectd/write_prometheus.so
+    remote_src: true
+  become: true
+  when: not collectd_install_check.stat.exists
+  notify: Restart_collectd
+
+- name: file_collectd
+  ansible.builtin.file:
+    path: /etc/collectd.d
+    state: directory
+  become: true
+
+- name: blockinfile_collectd
+  ansible.builtin.blockinfile:
+    path: /etc/collectd/collectd.conf
+    block: |
+      Include "/etc/collectd.d"
+  become: true
+
+- name: template_prometheus
+  ansible.builtin.template:
+    src: prometheus.conf.j2
+    dest: /etc/collectd.d/prometheus.conf
+  become: true
+  notify: Restart_collectd
+
+- name: service_collectd
+  ansible.builtin.service:
+    name: collectd
+    enabled: true
+    state: started
+  become: true

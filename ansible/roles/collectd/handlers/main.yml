@@ -1,0 +1,13 @@
+- name: Restart_collectd_stop
+  ansible.builtin.service:
+    name: collectd
+    state: stopped
+  become: true
+  listen: Restart_collectd
+
+- name: Restart_collectd_start
+  ansible.builtin.service:
+    name: collectd
+    state: started
+  become: true
+  listen: Restart_collectd

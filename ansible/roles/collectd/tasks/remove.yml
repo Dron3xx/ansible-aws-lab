@@ -1,0 +1,49 @@
+- name: stop_collectd
+  ansible.builtin.service:
+    name: collectd
+    state: stopped
+  become: true
+
+- name: disable_autostart_collectd
+  ansible.builtin.service:
+    name: collectd
+    enabled: false
+  become: true
+
+- name: remove_prometheus_config
+  ansible.builtin.file:
+    path: /etc/collectd.d/prometheus.conf
+    state: absent
+  become: true
+
+- name: remove_collectd_include
+  ansible.builtin.blockinfile:
+    path: /etc/collectd/collectd.conf
+    state: absent
+    block: |
+      Include "/etc/collectd.d"
+  become: true
+
+- name: remove_prometheus_plugin
+  ansible.builtin.file:
+    path: /usr/lib/collectd/write_prometheus.so
+    state: absent
+  become: true
+
+- name: remove_collectd_package
+  ansible.builtin.apt:
+    name: "{{ collectd_package }}"
+    state: absent
+  become: true
+
+- name: remove_collectd_archive
+  ansible.builtin.file:
+    path: /usr/local/src/collectd-5.12.0.tar.bz2
+    state: absent
+  become: true
+
+- name: remove_collectd_source
+  ansible.builtin.file:
+    path: /usr/local/src/collectd-5.12.0
+    state: absent
+  become: true

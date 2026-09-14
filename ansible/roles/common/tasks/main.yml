@@ -1,0 +1,5 @@
+- include_tasks: install_packages.yml
+  when: common_packages_install
+
+- include_tasks: selinux.yml
+  when: common_selinux_disable

@@ -1,0 +1,17 @@
+collectd_install: true
+collectd_remove: false
+
+collectd_prometheus_port: 9103
+
+collectd_build_packages:
+  - collectd-dev
+  - libmicrohttpd-dev
+  - build-essential
+  - autoconf
+  - automake
+  - libtool
+  - pkg-config
+  - protobuf-c-compiler
+  - libprotobuf-c-dev
+
+collectd_package: collectd

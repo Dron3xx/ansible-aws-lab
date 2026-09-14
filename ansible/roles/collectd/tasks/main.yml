@@ -1,0 +1,5 @@
+- include_tasks: install.yml
+  when: collectd_install
+
+- include_tasks: remove.yml
+  when: collectd_remove

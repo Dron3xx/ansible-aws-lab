@@ -1,0 +1,14 @@
+LoadPlugin write_prometheus
+
+<Plugin write_prometheus>
+	Port {{ collectd_prometheus_port }}
+</Plugin>
+
+LoadPlugin df
+LoadPlugin processes
+LoadPlugin protocols
+LoadPlugin swap
+LoadPlugin tcpconns
+LoadPlugin uptime
+LoadPlugin users
+LoadPlugin vmem

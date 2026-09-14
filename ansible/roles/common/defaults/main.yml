@@ -1,0 +1,12 @@
+common_packages_install: false
+common_selinux_disable: false
+
+common_packages:
+  - curl
+  - lsof
+  - mc
+  - nano
+  - tar
+  - unzip
+  - vim
+  - zip

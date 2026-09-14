@@ -1,0 +1,11 @@
+- name: selinux_install
+  apt:
+    name: selinux-basics
+    state: present
+  become: true
+
+- name: selinux_disable
+  ansible.posix.selinux:
+    state: disabled
+  notify: Reboot
+  become: true

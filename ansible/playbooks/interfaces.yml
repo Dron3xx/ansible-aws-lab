@@ -1,0 +1,7 @@
+- hosts: managed_nodes
+  gather_facts: yes
+
+  tasks:
+    - name: debug
+      debug:
+        var: ansible_interfaces
